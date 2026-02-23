@@ -123,9 +123,23 @@ These findings clarify why few-shot federated learning remains challenging in re
 
 ---
 
+## Dataset Setup
+
+This project uses the CIFAR-10 PNG version from Kaggle:
+
+https://www.kaggle.com/datasets/swaroopkml/cifar10-pngs-in-folders
+
+### Option 1: Manual Download
+
+1. Download the dataset from the link above.
+2. Extract the contents.
+3. Place the extracted `cifar10/` folder inside:
+
 ## How to Run
 
 1. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+
+
