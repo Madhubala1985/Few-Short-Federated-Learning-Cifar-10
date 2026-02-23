@@ -119,8 +119,7 @@ These findings clarify why few-shot federated learning remains challenging in re
 
 - `FSFL.ipynb` — Full experimental pipeline (all three stages)
 - `results/` — Saved experimental plots
-- `requirements.txt` — Dependencies
-- 
+- `requirements.txt` — Dependencies 
 
 ---
 
