@@ -4,23 +4,23 @@
 
 This project presents a structured empirical analysis of Few-Shot Federated Learning (FSFL) using the CIFAR-10 dataset.
 
-The study investigates what happens when two challenging constraints are combined:
+The study investigates the interaction between two challenging constraints:
 
-- **Few-Shot Learning** — only a small number of labeled samples per class.
-- **Federated Learning** — decentralized clients with non-IID data that cannot share raw samples.
+- **Few-Shot Learning (FSL)** — only a small number of labeled samples per class.
+- **Federated Learning (FL)** — decentralized clients with non-IID data that cannot share raw samples.
 
-Rather than proposing a new algorithm, this work focuses on understanding feasibility, limitations, and trade-offs when few-shot learning is applied in a federated environment.
+Rather than proposing a novel algorithm, this work focuses on analyzing feasibility, convergence behavior, and structural limitations when few-shot learning is deployed in a federated setting.
 
 ---
 
-## Project Structure
+## Experimental Design
 
-The experiments are organized into three stages:
+The experiments are organized into three controlled stages to isolate effects:
 
 ### Stage 1 — Centralized Few-Shot Learning
 - Prototype-based classification (metric learning approach)
 - InceptionV3 backbone (ImageNet pretrained, frozen)
-- Episodic evaluation
+- Episodic evaluation (5-way classification)
 - 1-shot, 3-shot, and 5-shot settings
 
 ### Stage 2 — Standard Federated Learning
@@ -48,28 +48,85 @@ The experiments are organized into three stages:
 | Standard Federated Learning | ~0.96–0.97 |
 | Few-Shot Federated Learning | ~0.18 |
 
-### Observations
+### Core Observations
 
-- Few-shot learning performs reasonably well in a centralized setting.
-- Federated learning performs strongly when clients have sufficient local data.
-- Combining both constraints results in significant performance degradation.
-- Multi-round prototype aggregation does not substantially improve accuracy.
+- Few-shot learning performs well when centralized.
+- Federated learning performs strongly with sufficient local data.
+- Combining both constraints leads to significant performance degradation.
+- Multi-round prototype aggregation shows early saturation.
 - Client-wise disparities persist under non-IID conditions.
 - Backbone strength alone does not overcome representation bottlenecks.
 
 ---
 
+## Visual Results
+
+### Stage 1 — Centralized Few-Shot Learning
+
+<p align="center">
+  <img src="results/Stage1_FewShot_Accuracy.png.png" width="650">
+</p>
+
+**Figure 1:** Centralized few-shot accuracy across 1-shot, 3-shot, and 5-shot settings.
+
+---
+
+### Stage 2 — Standard Federated Learning
+
+<p align="center">
+  <img src="results/Stage2_Client_wise_accuracy_across_federated_rounds.png" width="650">
+</p>
+
+**Figure 2:** Client-wise accuracy across communication rounds using FedAvg.
+
+---
+
+### Stage 3 — Few-Shot Federated Learning
+
+<p align="center">
+  <img src="results/Stage3_client_wise_accuracy_across_federated_rounds.png" width="650">
+</p>
+
+**Figure 3:** Client-wise accuracy across multi-round prototype-based federated learning.
+
+---
+
+### Backbone Comparison — InceptionV3 vs ResNet50
+
+<p align="center">
+  <img src="results/Stage_3_InceptionV3_vs_Resnet50.png" width="650">
+</p>
+
+**Figure 4:** Performance comparison between InceptionV3 and ResNet50 under few-shot federated constraints.
+
+---
+
 ## Experimental Insights
 
-This study shows that:
+This study demonstrates that:
 
-- Prototype-based communication is highly communication-efficient.
-- However, extreme data scarcity prevents meaningful knowledge accumulation.
-- Frozen representations limit adaptation across heterogeneous clients.
-- Repeated aggregation primarily recombines noisy few-shot statistics rather than improving class separation.
+- Prototype-based communication is communication-efficient.
+- Extreme data scarcity limits meaningful knowledge accumulation.
+- Frozen representations restrict cross-client adaptation.
+- Repeated aggregation mainly recombines noisy few-shot estimates.
+- Few-shot federated learning exhibits structural limitations under severe constraints.
 
-These findings highlight structural limitations in few-shot federated settings rather than implementation weaknesses.
+These findings clarify why few-shot federated learning remains challenging in real-world privacy-preserving environments.
 
 ---
 
 ## Repository Contents
+
+- `FSFL.ipynb` — Full experimental pipeline (all three stages)
+- `results/` — Saved experimental plots
+- `requirements.txt` — Dependencies
+- 
+
+---
+
+## How to Run
+
+1. Install dependencies:
+
+```bash
+pip install -r requirements.txt
